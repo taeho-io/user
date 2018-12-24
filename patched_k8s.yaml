@@ -1,0 +1,211 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: user
+  labels:
+    app: user
+spec:
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  replicas: 1
+  selector:
+    matchLabels:
+      app: user
+  template:
+    metadata:
+      labels:
+        app: user
+    spec:
+      containers:
+        - name: postgres
+          image: postgres
+          args:
+            - tail
+            - -f
+            - /dev/null
+          imagePullPolicy: IfNotPresent
+        - name: busybox
+          image: busybox
+          args:
+            - tail
+            - -f
+            - /dev/null
+          imagePullPolicy: IfNotPresent
+        - name: user
+          image: us.gcr.io/taeho-io-220708/user:2cb794cc9386a37ebd02c27a2c77504117b55954
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 80
+          env:
+            - name: USER_POSTGRES_DB_NAME
+              valueFrom:
+                secretKeyRef:
+                  name: taeho-envs
+                  key: USER_POSTGRES_DB_NAME
+            - name: USER_POSTGRES_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: taeho-envs
+                  key: USER_POSTGRES_HOST
+            - name: USER_POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: taeho-envs
+                  key: USER_POSTGRES_USER
+            - name: USER_POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: taeho-envs
+                  key: USER_POSTGRES_PASSWORD
+        - name: gce-proxy
+          image: gcr.io/cloudsql-docker/gce-proxy:1.13
+          imagePullPolicy: IfNotPresent
+          command: ["/cloud_sql_proxy",
+                    "-instances=taeho-io-220708:us-west1:taeho-io=tcp:5432",
+                    "--credential_file=/secrets/cloudsql/credentials.json"]
+          ports:
+            - containerPort: 5432
+          volumeMounts:
+            - name: cloudsql-instance-credentials
+              mountPath: /secrets/cloudsql
+              readOnly: true
+      volumes:
+        - name: cloudsql-instance-credentials
+          secret:
+            secretName: cloudsql-instance-credentials
+
+---
+
+apiVersion: autoscaling/v1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: user-hpa
+  labels:
+    app: user
+spec:
+  scaleTargetRef:
+    kind: Deployment
+    name: user
+    apiVersion: apps/v1beta1
+  minReplicas: 1
+  maxReplicas: 5
+  targetCPUUtilizationPercentage: 80
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: user
+  labels:
+    app: user
+spec:
+  ports:
+    - port: 80
+      name: grpc
+  selector:
+    app: user
+
+---
+
+apiVersion: networking.istio.io/v1alpha3
+kind: ServiceEntry
+metadata:
+  name: googleapis.com
+spec:
+  hosts:
+    - www.googleapis.com
+    - api.googleapis.com
+    - oauth2.googleapis.com
+    - accounts.googleapis.com
+  ports:
+    - number: 443
+      name: https
+      protocol: HTTPS
+    - number: 80
+      name: http
+      protocol: HTTP
+  location: MESH_EXTERNAL
+
+---
+
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: googleapis.com
+spec:
+  hosts:
+    - www.googleapis.com
+    - api.googleapis.com
+    - oauth2.googleapis.com
+    - accounts.googleapis.com
+  tls:
+    - match:
+        - port: 443
+          sniHosts:
+            - www.googleapis.com
+      route:
+        - destination:
+            host: www.googleapis.com
+    - match:
+        - port: 443
+          sniHosts:
+            - api.googleapis.com
+      route:
+        - destination:
+            host: api.googleapis.com
+    - match:
+        - port: 443
+          sniHosts:
+            - oauth2.googleapis.com
+      route:
+        - destination:
+            host: oauth2.googleapis.com
+    - match:
+        - port: 443
+          sniHosts:
+            - accounts.googleapis.com
+      route:
+        - destination:
+            host: accounts.googleapis.com
+
+---
+
+apiVersion: networking.istio.io/v1alpha3
+kind: ServiceEntry
+metadata:
+  name: cloudsql-postgres-instance
+spec:
+  hosts:
+    - postgres.taeho.io
+  addresses:
+    - 35.247.74.142/32
+  ports:
+    - name: tcp
+      number: 3307 # at the moment, Google Cloud SQL always available on port 3307
+      protocol: tcp # enable TCP traffic
+    - name: postgres
+      number: 5432
+      protocol: tcp
+  location: MESH_EXTERNAL
+
+---
+
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: user
+spec:
+  hosts:
+    - user.taeho.io
+  gateways:
+    - public-gateway
+  http:
+    - route:
+        - destination:
+            host: user
+            port:
+              number: 80

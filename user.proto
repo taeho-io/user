@@ -1,0 +1,36 @@
+syntax = "proto3";
+option go_package = "github.com/taeho-io/user";
+package user;
+
+service User {
+  rpc Register (RegisterRequest) returns (RegisterResponse) {}
+  rpc LogIn (LogInRequest) returns (LogInResponse) {}
+}
+
+enum UserType {
+  EMAIL = 0;
+}
+
+message RegisterRequest {
+  UserType user_type = 1;
+  string email = 2;
+  string password = 3;
+  string name = 4;
+}
+
+message RegisterResponse {
+  string access_token = 1;
+  string refresh_token = 2;
+}
+
+message LogInRequest {
+  UserType user_type = 1;
+  int64 user_id = 2;
+  string password = 3;
+}
+
+message LogInResponse {
+  string access_token = 1;
+  string refresh_token = 2;
+  int64 expires_at = 3;
+}
