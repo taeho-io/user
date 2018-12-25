@@ -65,11 +65,11 @@ spec:
           readinessProbe:
             exec:
               command: ["/bin/grpc_health_probe", "-addr=:80"]
-            initialDelaySeconds: 5
+            initialDelaySeconds: 10
           livenessProbe:
             exec:
               command: ["/bin/grpc_health_probe", "-addr=:80"]
-            initialDelaySeconds: 10
+            initialDelaySeconds: 15
 
         - name: gce-proxy
           image: gcr.io/cloudsql-docker/gce-proxy:1.13
