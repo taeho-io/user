@@ -3,9 +3,12 @@ package server
 import (
 	"database/sql"
 	"fmt"
+	"log"
 	"net"
+	"time"
 
 	_ "github.com/lib/pq"
+	"github.com/pkg/errors"
 	"github.com/taeho-io/auth"
 	"github.com/taeho-io/user"
 	"github.com/taeho-io/user/pkg/crypt"
@@ -40,9 +43,14 @@ func New(cfg Config) (*UserServer, error) {
 	if err != nil {
 		return nil, err
 	}
-	err = db.Ping()
-	if err != nil {
-		return nil, err
+	for {
+		err = db.Ping()
+		if err != nil {
+			log.Print(errors.Wrap(err, "db ping failed"))
+			time.Sleep(time.Second)
+			continue
+		}
+		break
 	}
 
 	authCli := auth.GetAuthClient()
