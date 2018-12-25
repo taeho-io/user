@@ -47,7 +47,7 @@ func New(cfg Config) (*UserServer, error) {
 		err = db.Ping()
 		if err != nil {
 			log.Print(errors.Wrap(err, "db ping failed"))
-			time.Sleep(time.Second)
+			time.Sleep(time.Second * 5)
 			continue
 		}
 		break

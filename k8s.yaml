@@ -20,22 +20,6 @@ spec:
         app: user
     spec:
       containers:
-        - name: postgres
-          image: postgres
-          args:
-            - tail
-            - -f
-            - /dev/null
-          imagePullPolicy: IfNotPresent
-
-        - name: busybox
-          image: busybox
-          args:
-            - tail
-            - -f
-            - /dev/null
-          imagePullPolicy: IfNotPresent
-
         - name: user
           image: us.gcr.io/taeho-io-220708/user:${CIRCLE_SHA1}
           imagePullPolicy: IfNotPresent
