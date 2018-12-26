@@ -4,6 +4,9 @@ import (
 	"database/sql"
 	"strings"
 
+	"github.com/dchest/validator"
+	"github.com/hashicorp/go-multierror"
+	"github.com/pkg/errors"
 	"github.com/taeho-io/auth"
 	"github.com/taeho-io/user"
 	"github.com/taeho-io/user/pkg/crypt"
@@ -19,6 +22,11 @@ type RegisterHandlerFunc func(ctx context.Context, request *user.RegisterRequest
 
 func Register(c crypt.Crypt, db *sql.DB, authCli auth.AuthClient) RegisterHandlerFunc {
 	return func(ctx context.Context, req *user.RegisterRequest) (*user.RegisterResponse, error) {
+		err := validate(req)
+		if err != nil {
+			return nil, status.Error(codes.InvalidArgument, err.Error())
+		}
+
 		userID, err := kubeflake.New()
 		if err != nil {
 			return nil, err
@@ -58,4 +66,34 @@ func Register(c crypt.Crypt, db *sql.DB, authCli auth.AuthClient) RegisterHandle
 			RefreshToken: authResp.RefreshToken,
 		}, nil
 	}
+}
+
+var (
+	ErrNotSupportedUserType = errors.New("not supported user_type")
+	ErrInvalidEmail         = errors.New("invalid email")
+	ErrInvalidName          = errors.New("invalid name")
+	ErrPasswordTooShort     = errors.New("password too short")
+)
+
+func validate(req *user.RegisterRequest) error {
+	var errs *multierror.Error
+
+	if req.UserType != user.UserType_EMAIL {
+		errs = multierror.Append(errs, ErrNotSupportedUserType)
+		return errs.ErrorOrNil()
+	}
+
+	if !validator.IsValidEmail(req.Email) {
+		errs = multierror.Append(errs, ErrInvalidEmail)
+	}
+
+	if strings.Trim(req.Name, " ") == "" {
+		errs = multierror.Append(errs, ErrInvalidName)
+	}
+
+	if len(req.Password) < 6 {
+		errs = multierror.Append(errs, ErrPasswordTooShort)
+	}
+
+	return errs.ErrorOrNil()
 }
