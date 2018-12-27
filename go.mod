@@ -9,7 +9,7 @@ require (
 	github.com/lib/pq v1.0.0
 	github.com/pkg/errors v0.8.0
 	github.com/stretchr/testify v1.2.2
-	github.com/taeho-io/auth v0.0.0-20181224213357-d5f6a361908c
+	github.com/taeho-io/auth v0.0.0-20181227031445-a222b2779da0
 	github.com/volatiletech/inflect v0.0.0-20170731032912-e7201282ae8d // indirect
 	github.com/volatiletech/null v8.0.0+incompatible // indirect
 	github.com/volatiletech/sqlboiler v3.1.0+incompatible
