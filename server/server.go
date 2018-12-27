@@ -100,8 +100,8 @@ func (s *UserServer) Get(ctx context.Context, req *user.GetRequest) (*user.GetRe
 	return handler.Get()(ctx, req)
 }
 
-func Serve() error {
-	lis, err := net.Listen("tcp", "0.0.0.0:80")
+func Serve(address string) error {
+	lis, err := net.Listen("tcp", address)
 	if err != nil {
 		return err
 	}

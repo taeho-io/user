@@ -25,6 +25,7 @@ spec:
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 80
+            - containerPort: 81
           env:
             - name: USER_POSTGRES_DB_NAME
               valueFrom:
@@ -48,11 +49,11 @@ spec:
                   key: USER_POSTGRES_PASSWORD
           readinessProbe:
             exec:
-              command: ["/bin/grpc_health_probe", "-addr=:80"]
+              command: ["/bin/grpc_health_probe", "-addr=:80", "&&", "/bin/grpc_health_probe", "-addr=:81"]
             initialDelaySeconds: 10
           livenessProbe:
             exec:
-              command: ["/bin/grpc_health_probe", "-addr=:80"]
+              command: ["/bin/grpc_health_probe", "-addr=:80", "&&", "/bin/grpc_health_probe", "-addr=:81"]
             initialDelaySeconds: 15
 
         - name: gce-proxy
@@ -112,6 +113,8 @@ spec:
   ports:
     - port: 80
       name: grpc
+    - port: 81
+      name: grpc-jwt
   selector:
     app: user
 
@@ -203,7 +206,7 @@ spec:
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
-  name: user-route-public-no-auth
+  name: user-route-public
 spec:
   hosts:
     - user.taeho.io
@@ -213,6 +216,14 @@ spec:
     - match:
         - uri:
             prefix: /user.User/Register
+      route:
+        - destination:
+            host: user
+            port:
+              number: 80
+    - match:
+        - uri:
+            prefix: /user.User/LogIn
       route:
         - destination:
             host: user
@@ -233,9 +244,29 @@ spec:
   http:
     - match:
         - uri:
-            prefix: /user.User/LogIn
+            prefix: /user.User/Get
       route:
         - destination:
             host: user
             port:
-              number: 80
+              number: 81
+
+---
+
+apiVersion: authentication.istio.io/v1alpha1
+kind: Policy
+metadata:
+  name: user-auth
+spec:
+  targets:
+    - name: user
+      ports:
+        - number: 81
+  peers:
+    - mtls:
+        mode: STRICT
+  origins:
+    - jwt:
+        issuer: "https://auth.taeho.io"
+        jwksUri: "https://auth.taeho.io/jwks"
+  #principalBinding: USE_ORIGIN
