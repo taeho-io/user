@@ -5,6 +5,7 @@ package user;
 service User {
   rpc Register (RegisterRequest) returns (RegisterResponse) {}
   rpc LogIn (LogInRequest) returns (LogInResponse) {}
+  rpc Get (GetRequest) returns (GetResponse) {}
 }
 
 enum UserType {
@@ -33,4 +34,10 @@ message LogInResponse {
   string access_token = 1;
   string refresh_token = 2;
   int64 expires_at = 3;
+}
+
+message GetRequest {
+}
+
+message GetResponse {
 }

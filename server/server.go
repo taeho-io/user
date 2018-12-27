@@ -96,6 +96,10 @@ func (s *UserServer) LogIn(ctx context.Context, req *user.LogInRequest) (*user.L
 	return handler.LogIn(s.Crypt(), s.DB())(ctx, req)
 }
 
+func (s *UserServer) Get(ctx context.Context, req *user.GetRequest) (*user.GetResponse, error) {
+	return handler.Get()(ctx, req)
+}
+
 func Serve() error {
 	lis, err := net.Listen("tcp", "0.0.0.0:80")
 	if err != nil {
