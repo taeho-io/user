@@ -3,12 +3,15 @@ package server
 import (
 	"database/sql"
 	"fmt"
-	"log"
 	"net"
 	"time"
 
+	"github.com/grpc-ecosystem/go-grpc-middleware"
+	"github.com/grpc-ecosystem/go-grpc-middleware/logging/logrus"
+	"github.com/grpc-ecosystem/go-grpc-middleware/tags"
 	_ "github.com/lib/pq"
 	"github.com/pkg/errors"
+	"github.com/sirupsen/logrus"
 	"github.com/taeho-io/auth"
 	"github.com/taeho-io/user"
 	"github.com/taeho-io/user/pkg/crypt"
@@ -46,7 +49,7 @@ func New(cfg Config) (*UserServer, error) {
 	for {
 		err = db.Ping()
 		if err != nil {
-			log.Print(errors.Wrap(err, "db ping failed"))
+			logrus.Error(errors.Wrap(err, "db ping failed"))
 			time.Sleep(time.Second * 5)
 			continue
 		}
@@ -106,7 +109,15 @@ func Serve(addr string, cfg Config) error {
 		return err
 	}
 
-	grpcServer := grpc.NewServer()
+	logrusEntry := logrus.NewEntry(logrus.StandardLogger())
+
+	grpcServer := grpc.NewServer(
+		grpc_middleware.WithUnaryServerChain(
+			grpc_ctxtags.UnaryServerInterceptor(grpc_ctxtags.WithFieldExtractor(grpc_ctxtags.CodeGenRequestFieldExtractor)),
+			auth.TokenUnaryServerInterceptor,
+			grpc_logrus.UnaryServerInterceptor(logrusEntry),
+		),
+	)
 
 	healthServer := health.NewServer()
 	grpc_health_v1.RegisterHealthServer(grpcServer, healthServer)
