@@ -100,8 +100,8 @@ func (s *UserServer) Get(ctx context.Context, req *user.GetRequest) (*user.GetRe
 	return handler.Get()(ctx, req)
 }
 
-func Serve(address string) error {
-	lis, err := net.Listen("tcp", address)
+func Serve(addr string, cfg Config) error {
+	lis, err := net.Listen("tcp", addr)
 	if err != nil {
 		return err
 	}
@@ -111,7 +111,7 @@ func Serve(address string) error {
 	healthServer := health.NewServer()
 	grpc_health_v1.RegisterHealthServer(grpcServer, healthServer)
 
-	userServer, err := New(NewConfig(NewSettings()))
+	userServer, err := New(cfg)
 	if err != nil {
 		return err
 	}

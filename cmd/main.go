@@ -1,10 +1,10 @@
 package main
 
 import (
-	"fmt"
 	"os"
 	"sync"
 
+	"github.com/sirupsen/logrus"
 	"github.com/taeho-io/user/server"
 )
 
@@ -15,17 +15,31 @@ func main() {
 	go func() {
 		defer wg.Done()
 
-		fmt.Println("Starting User gRPC server on :80")
-		err := server.Serve(":80")
-		fmt.Println(err)
+		addr := ":80"
+		log := logrus.WithField("addr", addr)
+
+		cfg := server.NewConfig(server.NewSettings())
+
+		log.Info("String User gRPC server")
+		if err := server.Serve(addr, cfg); err != nil {
+			log.Error(err)
+			return
+		}
 	}()
 
 	go func() {
 		defer wg.Done()
 
-		fmt.Println("Starting User gRPC server on :81")
-		err := server.Serve(":81")
-		fmt.Println(err)
+		addr := ":81"
+		log := logrus.WithField("addr", addr)
+
+		cfg := server.NewConfig(server.NewSettings())
+
+		log.Info("String User gRPC server")
+		if err := server.Serve(addr, cfg); err != nil {
+			log.Error(err)
+			return
+		}
 	}()
 
 	wg.Wait()
