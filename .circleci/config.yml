@@ -59,7 +59,8 @@ workflows:
   version: 2
   build-deploy:
     jobs:
-      - build
+      - build:
+          context: taeho-io
       - approve:
           filters:
             branches:
@@ -71,3 +72,4 @@ workflows:
       - deploy:
           requires:
             - approve
+          context: taeho-io
