@@ -1,16 +1,17 @@
 module github.com/taeho-io/user
 
 require (
-	github.com/dchest/validator v0.0.0-20140521124244-6e75c8ee02d3
 	github.com/gofrs/uuid v3.1.0+incompatible // indirect
 	github.com/golang/mock v1.2.0
 	github.com/golang/protobuf v1.2.0
 	github.com/grpc-ecosystem/go-grpc-middleware v1.0.0
-	github.com/hashicorp/go-multierror v1.0.0
+	github.com/iancoleman/strcase v0.0.0-20180726023541-3605ed457bf7 // indirect
 	github.com/lib/pq v1.0.0
+	github.com/lyft/protoc-gen-star v0.4.5 // indirect
+	github.com/lyft/protoc-gen-validate v0.0.12
 	github.com/pkg/errors v0.8.0
 	github.com/sirupsen/logrus v1.2.0
-	github.com/stretchr/testify v1.2.2
+	github.com/spf13/afero v1.2.0 // indirect
 	github.com/taeho-io/auth v0.0.0-20181230035022-480b18f70400
 	github.com/taeho-io/taeho-go v0.0.0-20181230031007-c740d5982360
 	github.com/volatiletech/inflect v0.0.0-20170731032912-e7201282ae8d // indirect

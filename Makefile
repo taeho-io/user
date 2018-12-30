@@ -6,7 +6,13 @@ GOPATH:=$(shell go env GOPATH)
 
 proto:
 	@go get github.com/golang/protobuf/protoc-gen-go
-	protoc -I . user.proto --go_out=plugins=grpc:${GOPATH}/src
+	@go get github.com/lyft/protoc-gen-validate
+	protoc \
+		-I . \
+		-I ${GOPATH}/src \
+		user.proto \
+		--go_out=plugins=grpc:${GOPATH}/src \
+		--validate_out="lang=go:${GOPATH}/src"
 
 build: proto
 	go build -o build/user cmd/main.go
