@@ -4,7 +4,6 @@ import (
 	"database/sql"
 	"strings"
 
-	"github.com/pkg/errors"
 	"github.com/taeho-io/auth"
 	"github.com/taeho-io/user"
 	"github.com/taeho-io/user/pkg/crypt"
@@ -61,13 +60,8 @@ func Register(c crypt.Crypt, db *sql.DB, authCli auth.AuthClient) RegisterHandle
 		return &user.RegisterResponse{
 			AccessToken:  authResp.AccessToken,
 			RefreshToken: authResp.RefreshToken,
+			ExpiresIn:    authResp.ExpiresIn,
+			UserId:       userID,
 		}, nil
 	}
 }
-
-var (
-	ErrNotSupportedUserType = errors.New("not supported user_type")
-	ErrInvalidEmail         = errors.New("invalid email")
-	ErrInvalidName          = errors.New("invalid name")
-	ErrPasswordTooShort     = errors.New("password too short")
-)

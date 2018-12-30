@@ -97,7 +97,7 @@ func (s *UserServer) Register(ctx context.Context, req *user.RegisterRequest) (*
 }
 
 func (s *UserServer) LogIn(ctx context.Context, req *user.LogInRequest) (*user.LogInResponse, error) {
-	return handler.LogIn(s.Crypt(), s.DB())(ctx, req)
+	return handler.LogIn(s.Crypt(), s.DB(), s.AuthClient())(ctx, req)
 }
 
 func (s *UserServer) Get(ctx context.Context, req *user.GetRequest) (*user.GetResponse, error) {
@@ -114,7 +114,8 @@ func Serve(addr string, cfg Config) error {
 
 	grpcServer := grpc.NewServer(
 		grpc_middleware.WithUnaryServerChain(
-			grpc_ctxtags.UnaryServerInterceptor(grpc_ctxtags.WithFieldExtractor(grpc_ctxtags.CodeGenRequestFieldExtractor)),
+			grpc_ctxtags.UnaryServerInterceptor(
+				grpc_ctxtags.WithFieldExtractor(grpc_ctxtags.CodeGenRequestFieldExtractor)),
 			auth.TokenUnaryServerInterceptor(),
 			grpc_logrus.UnaryServerInterceptor(logrusEntry),
 			grpc_recovery.UnaryServerInterceptor(),

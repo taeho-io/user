@@ -15,32 +15,33 @@ enum UserType {
 
 message RegisterRequest {
   UserType user_type = 1  [(validate.rules).enum.defined_only = true];
-  string email = 2  [(validate.rules).string.email = true];
-  string password = 3  [(validate.rules).string.min_len = 6];
-  string name = 4  [(validate.rules).string.pattern = "^[^\\s*]*[^\\s*]$"];
+  string email = 2        [(validate.rules).string.email = true];
+  string password = 3     [(validate.rules).string.min_len = 6];
+  string name = 4         [(validate.rules).string.pattern = "^[^\\s*]*[^\\s*]$"];
 }
 
 message RegisterResponse {
   string access_token = 1;
   string refresh_token = 2;
-  int64 user_id = 3;
+  int64 expires_in = 3;
+  int64 user_id = 4;
 }
 
 message LogInRequest {
-  UserType user_type = 1  [(validate.rules).enum.defined_only = true];;
-  int64 user_id = 2  [(validate.rules).int64.gt = 999];
-  string password = 3  [(validate.rules).string.min_len = 6];
+  UserType user_type = 1  [(validate.rules).enum.defined_only = true];
+  string email = 2        [(validate.rules).string.email = true];
+  string password = 3     [(validate.rules).string.min_len = 6];
 }
 
 message LogInResponse {
   string access_token = 1;
   string refresh_token = 2;
-  int64 expires_at = 3;
+  int64 expires_in = 3;
   int64 user_id = 4;
 }
 
 message GetRequest {
-    int64 user_id = 1  [(validate.rules).int64.gt = 999];
+    int64 user_id = 1     [(validate.rules).int64.gt = 999];
 }
 
 message GetResponse {

@@ -3,8 +3,8 @@ package crypt
 import "golang.org/x/crypto/bcrypt"
 
 type Crypt interface {
-	HashPassword(string) (string, error)
-	IsValidPassword(string, string) bool
+	HashPassword(password string) (string, error)
+	IsValidPassword(hashedPassword, password string) bool
 }
 
 type BCrypt struct {
