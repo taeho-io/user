@@ -1,7 +1,8 @@
 [psql]
-  dbname = "${USER_POSTGRES_DB_NAME}"
-  schema = "taeho"
-  host   = "${USER_POSTGRES_HOST}"
-  port   = 5432
-  user   = "${USER_POSTGRES_USER}"
-  pass   = "${USER_POSTGRES_PASSWORD}"
+  dbname    = "${USER_POSTGRES_DB_NAME}"
+  schema    = "taeho"
+  host      = "${USER_POSTGRES_HOST}"
+  port      = 5432
+  user      = "${USER_POSTGRES_USER}"
+  pass      = "${USER_POSTGRES_PASSWORD}"
+  whitelist = ["user"]
