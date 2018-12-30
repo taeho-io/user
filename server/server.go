@@ -101,7 +101,7 @@ func (s *UserServer) LogIn(ctx context.Context, req *user.LogInRequest) (*user.L
 }
 
 func (s *UserServer) Get(ctx context.Context, req *user.GetRequest) (*user.GetResponse, error) {
-	return handler.Get()(ctx, req)
+	return handler.Get(s.DB())(ctx, req)
 }
 
 func Serve(addr string, cfg Config) error {

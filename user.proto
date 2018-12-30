@@ -22,6 +22,7 @@ message RegisterRequest {
 message RegisterResponse {
   string access_token = 1;
   string refresh_token = 2;
+  int64 user_id = 3;
 }
 
 message LogInRequest {
@@ -34,10 +35,16 @@ message LogInResponse {
   string access_token = 1;
   string refresh_token = 2;
   int64 expires_at = 3;
+  int64 user_id = 4;
 }
 
 message GetRequest {
+    int64 user_id = 1;
 }
 
 message GetResponse {
+  int64 user_id = 1;
+  UserType user_type = 2;
+  string email = 3;
+  string name = 4;
 }
