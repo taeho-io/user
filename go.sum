@@ -48,14 +48,13 @@ github.com/rakyll/gotest v0.0.0-20180125184505-86f0749cd8cc/go.mod h1:iln+RRtJaJ
 github.com/rs/xid v1.2.1/go.mod h1:+uKXf+4Djp6Md1KODXJxgGQPKngRmWyn10oCKFzNHOQ=
 github.com/sirupsen/logrus v1.2.0 h1:juTguoYk5qI21pwyTXY3B3Y5cOTH3ZUyZCg1v/mihuo=
 github.com/sirupsen/logrus v1.2.0/go.mod h1:LxeOpSwHxABJmUn/MG1IvRgCAasNZTLOkJPxbbu5VWo=
-github.com/soheilhy/cmux v0.1.4/go.mod h1:IM3LyeVVIOuxMH7sFAkER9+bJ4dT7Ms6E4xg4kGIyLM=
 github.com/sony/sonyflake v0.0.0-20181109022403-6d5bd6181009 h1:3wBL/e/qjpSYaXacpbIV+Bsj/nwQ4UO1llG/av54zzw=
 github.com/sony/sonyflake v0.0.0-20181109022403-6d5bd6181009/go.mod h1:dVvZuWJd174umvm5g8CmZD6S2GWwHKtpK/0ZPHswuNo=
 github.com/stretchr/objx v0.1.1/go.mod h1:HFkY916IF+rwdDfMAkV7OtwuqBVzrE8GR6GFx+wExME=
 github.com/stretchr/testify v1.2.2 h1:bSDNvY7ZPG5RlJ8otE/7V6gMiyenm9RtJ7IUVIAoJ1w=
 github.com/stretchr/testify v1.2.2/go.mod h1:a8OnRcib4nhh0OaRAV+Yts87kKdq0PP7pXfy6kDkUVs=
-github.com/taeho-io/auth v0.0.0-20181228043118-9e7d73d3b28b h1:JuqqjHWjxXx9GJhFeBVfp7iFtGNZn27KiXDlZGkuYbU=
-github.com/taeho-io/auth v0.0.0-20181228043118-9e7d73d3b28b/go.mod h1:j03sZR/VMMoubv6hx5jxlGZP14Sltg92kZuiXxh5Zqs=
+github.com/taeho-io/auth v0.0.0-20181230023545-1e984a0b00bb h1:HL+5pWvPBt3yBSH7WdFLrTM0EHUIypWGi/D2wEmiLFY=
+github.com/taeho-io/auth v0.0.0-20181230023545-1e984a0b00bb/go.mod h1:RuTKPsBwI3JJsTVikNpebqjzefkqTKO7JyosykGV7lI=
 github.com/taeho-io/taeho-go v0.0.0-20181230022155-e73a1af77e66 h1:lwXlr7cyKeaqzcrWCvig47UN3DZrASodo3W7G3l8hQQ=
 github.com/taeho-io/taeho-go v0.0.0-20181230022155-e73a1af77e66/go.mod h1:iz+62V7JZ9byYGZg+W/otSUNolWBoKysd8hcELpbUt4=
 github.com/volatiletech/inflect v0.0.0-20170731032912-e7201282ae8d h1:gI4/tqP6lCY5k6Sg+4k9qSoBXmPwG+xXgMpK7jivD4M=

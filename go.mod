@@ -3,7 +3,6 @@ module github.com/taeho-io/user
 require (
 	github.com/dchest/validator v0.0.0-20140521124244-6e75c8ee02d3
 	github.com/gofrs/uuid v3.1.0+incompatible // indirect
-	github.com/gogo/protobuf v1.2.0 // indirect
 	github.com/golang/mock v1.2.0
 	github.com/golang/protobuf v1.2.0
 	github.com/grpc-ecosystem/go-grpc-middleware v1.0.0
@@ -12,7 +11,7 @@ require (
 	github.com/pkg/errors v0.8.0
 	github.com/sirupsen/logrus v1.2.0
 	github.com/stretchr/testify v1.2.2
-	github.com/taeho-io/auth v0.0.0-20181228043118-9e7d73d3b28b
+	github.com/taeho-io/auth v0.0.0-20181230023545-1e984a0b00bb
 	github.com/taeho-io/taeho-go v0.0.0-20181230022155-e73a1af77e66
 	github.com/volatiletech/inflect v0.0.0-20170731032912-e7201282ae8d // indirect
 	github.com/volatiletech/null v8.0.0+incompatible // indirect

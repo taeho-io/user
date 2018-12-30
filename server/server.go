@@ -115,7 +115,7 @@ func Serve(addr string, cfg Config) error {
 	grpcServer := grpc.NewServer(
 		grpc_middleware.WithUnaryServerChain(
 			grpc_ctxtags.UnaryServerInterceptor(grpc_ctxtags.WithFieldExtractor(grpc_ctxtags.CodeGenRequestFieldExtractor)),
-			auth.TokenUnaryServerInterceptor,
+			auth.TokenUnaryServerInterceptor(),
 			grpc_logrus.UnaryServerInterceptor(logrusEntry),
 			grpc_recovery.UnaryServerInterceptor(),
 		),
