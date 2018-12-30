@@ -209,7 +209,7 @@ metadata:
   name: user-route-public
 spec:
   hosts:
-    - user.taeho.io
+    - api.taeho.io
   gateways:
     - public-gateway
   http:
@@ -238,7 +238,7 @@ metadata:
   name: user-route-public-auth
 spec:
   hosts:
-    - user.taeho.io
+    - api.taeho.io
   gateways:
     - public-gateway
   http:
@@ -267,6 +267,6 @@ spec:
         mode: STRICT
   origins:
     - jwt:
-        issuer: "https://auth.taeho.io"
-        jwksUri: "https://auth.taeho.io/jwks"
+        issuer: "https://api.taeho.io"
+        jwksUri: "https://api.taeho.io/jwks"
   #principalBinding: USE_ORIGIN
