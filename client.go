@@ -3,7 +3,12 @@ package user
 import (
 	"sync"
 
+	"github.com/taeho-io/taeho-go/interceptor"
 	"google.golang.org/grpc"
+)
+
+const (
+	serviceURL = "user:80"
 )
 
 var (
@@ -19,13 +24,14 @@ func GetUserClient() UserClient {
 		return Client
 	}
 
-	serviceURL := "user:80"
-
 	// We don't need to error here, as this creates a pool and connection
 	// will happen later
 	conn, _ := grpc.Dial(
 		serviceURL,
 		grpc.WithInsecure(),
+		grpc.WithUnaryInterceptor(
+			interceptor.ContextUnaryClientInterceptor(),
+		),
 	)
 
 	cli := NewUserClient(conn)

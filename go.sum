@@ -56,6 +56,8 @@ github.com/stretchr/testify v1.2.2 h1:bSDNvY7ZPG5RlJ8otE/7V6gMiyenm9RtJ7IUVIAoJ1
 github.com/stretchr/testify v1.2.2/go.mod h1:a8OnRcib4nhh0OaRAV+Yts87kKdq0PP7pXfy6kDkUVs=
 github.com/taeho-io/auth v0.0.0-20181228043118-9e7d73d3b28b h1:JuqqjHWjxXx9GJhFeBVfp7iFtGNZn27KiXDlZGkuYbU=
 github.com/taeho-io/auth v0.0.0-20181228043118-9e7d73d3b28b/go.mod h1:j03sZR/VMMoubv6hx5jxlGZP14Sltg92kZuiXxh5Zqs=
+github.com/taeho-io/taeho-go v0.0.0-20181230022155-e73a1af77e66 h1:lwXlr7cyKeaqzcrWCvig47UN3DZrASodo3W7G3l8hQQ=
+github.com/taeho-io/taeho-go v0.0.0-20181230022155-e73a1af77e66/go.mod h1:iz+62V7JZ9byYGZg+W/otSUNolWBoKysd8hcELpbUt4=
 github.com/volatiletech/inflect v0.0.0-20170731032912-e7201282ae8d h1:gI4/tqP6lCY5k6Sg+4k9qSoBXmPwG+xXgMpK7jivD4M=
 github.com/volatiletech/inflect v0.0.0-20170731032912-e7201282ae8d/go.mod h1:jspfvgf53t5NLUT4o9L1IX0kIBNKamGq1tWc/MgWK9Q=
 github.com/volatiletech/null v8.0.0+incompatible h1:7wP8m5d/gZ6kW/9GnrLtMCRre2dlEnaQ9Km5OXlK4zg=
