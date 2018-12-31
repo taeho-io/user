@@ -34,7 +34,7 @@ generate_sql:
 generate_mocks:
 	@go get github.com/golang/mock/gomock
 	@go install github.com/golang/mock/mockgen
-	mockgen -package mocks -destination ./mocks/mock_crypt.go github.com/taeho-io/user/pkg/crypt Crypt
+	mockgen -package crypt -destination ./pkg/crypt/mock_crypt.go github.com/taeho-io/user/pkg/crypt Crypt
 
 .PHONY: clean_mocks
 clean_mocks:

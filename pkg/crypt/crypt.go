@@ -19,7 +19,7 @@ func New(cfg Config) Crypt {
 	}
 }
 
-func NewMock() Crypt {
+func Mock() Crypt {
 	return New(NewMockConfig())
 }
 

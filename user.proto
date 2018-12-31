@@ -1,6 +1,7 @@
 syntax = "proto3";
 option go_package = "github.com/taeho-io/user";
 package user;
+
 import "github.com/lyft/protoc-gen-validate/validate/validate.proto";
 
 service User {

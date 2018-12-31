@@ -11,18 +11,26 @@ import (
 	"google.golang.org/grpc/status"
 )
 
+var (
+	ErrUserNotFound = status.Error(codes.NotFound, "user not found")
+)
+
 type GetHandlerFunc func(ctx context.Context, request *user.GetRequest) (*user.GetResponse, error)
 
 func Get(db *sql.DB) GetHandlerFunc {
 	return func(ctx context.Context, req *user.GetRequest) (*user.GetResponse, error) {
+		if err := req.Validate(); err != nil {
+			return nil, status.Error(codes.InvalidArgument, err.Error())
+		}
+
 		u, err := models.Users(qm.Where("id=?", req.UserId)).One(ctx, db)
 		if err != nil {
 			switch err {
 			case sql.ErrNoRows:
-				return nil, status.Error(codes.NotFound, "no user")
+				return nil, ErrUserNotFound
 			}
 
-			return nil, err
+			return nil, status.Error(codes.Internal, err.Error())
 		}
 
 		return &user.GetResponse{

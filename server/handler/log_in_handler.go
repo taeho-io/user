@@ -2,7 +2,6 @@ package handler
 
 import (
 	"database/sql"
-	"errors"
 
 	"github.com/taeho-io/auth"
 	"github.com/taeho-io/user"
@@ -17,22 +16,22 @@ import (
 type LogInHandlerFunc func(ctx context.Context, request *user.LogInRequest) (*user.LogInResponse, error)
 
 var (
-	ErrLogInFailed = errors.New("logIn failed")
+	ErrLogInFailed = status.Error(codes.Unauthenticated, "logIn failed")
 )
 
 func LogIn(c crypt.Crypt, db *sql.DB, authCli auth.AuthClient) LogInHandlerFunc {
 	return func(ctx context.Context, req *user.LogInRequest) (*user.LogInResponse, error) {
 		if err := req.Validate(); err != nil {
-			return nil, err
+			return nil, status.Error(codes.InvalidArgument, err.Error())
 		}
 
 		u, err := models.Users(qm.Where("type=? AND email=?", req.UserType.String(), req.Email)).One(ctx, db)
 		if err != nil {
-			return nil, status.Error(codes.Unauthenticated, ErrLogInFailed.Error())
+			return nil, ErrLogInFailed
 		}
 
 		if !c.IsValidPassword(u.HashedPassword, req.Password) {
-			return nil, status.Error(codes.Unauthenticated, ErrLogInFailed.Error())
+			return nil, ErrLogInFailed
 		}
 
 		authResp, err := authCli.Auth(ctx, &auth.AuthRequest{

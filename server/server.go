@@ -14,6 +14,7 @@ import (
 	"github.com/pkg/errors"
 	"github.com/sirupsen/logrus"
 	"github.com/taeho-io/auth"
+	"github.com/taeho-io/taeho-go/id"
 	"github.com/taeho-io/user"
 	"github.com/taeho-io/user/pkg/crypt"
 	"github.com/taeho-io/user/server/handler"
@@ -30,6 +31,7 @@ type UserServer struct {
 	cfg     Config
 	bcrypt  crypt.Crypt
 	db      *sql.DB
+	id      id.ID
 	authCli auth.AuthClient
 }
 
@@ -63,6 +65,7 @@ func New(cfg Config) (*UserServer, error) {
 		cfg:     cfg,
 		bcrypt:  bcrypt,
 		db:      db,
+		id:      id.New(),
 		authCli: authCli,
 	}, nil
 }
@@ -84,6 +87,10 @@ func (s *UserServer) DB() *sql.DB {
 	return s.db
 }
 
+func (s *UserServer) ID() id.ID {
+	return s.id
+}
+
 func (s *UserServer) AuthClient() auth.AuthClient {
 	return s.authCli
 }
@@ -93,7 +100,7 @@ func (s *UserServer) RegisterServer(srv *grpc.Server) {
 }
 
 func (s *UserServer) Register(ctx context.Context, req *user.RegisterRequest) (*user.RegisterResponse, error) {
-	return handler.Register(s.Crypt(), s.DB(), s.AuthClient())(ctx, req)
+	return handler.Register(s.Crypt(), s.DB(), s.ID(), s.AuthClient())(ctx, req)
 }
 
 func (s *UserServer) LogIn(ctx context.Context, req *user.LogInRequest) (*user.LogInResponse, error) {
