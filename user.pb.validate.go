@@ -66,7 +66,7 @@ func (m *RegisterRequest) Validate() error {
 	if !_RegisterRequest_Name_Pattern.MatchString(m.GetName()) {
 		return RegisterRequestValidationError{
 			field:  "Name",
-			reason: "value does not match regex pattern \"^[^\\\\s*]*[^\\\\s*]$\"",
+			reason: "value does not match regex pattern \"^[^\\\\s*].*[^\\\\s*]$\"",
 		}
 	}
 
@@ -177,7 +177,7 @@ var _ interface {
 	ErrorName() string
 } = RegisterRequestValidationError{}
 
-var _RegisterRequest_Name_Pattern = regexp.MustCompile("^[^\\s*]*[^\\s*]$")
+var _RegisterRequest_Name_Pattern = regexp.MustCompile("^[^\\s*].*[^\\s*]$")
 
 // Validate checks the field values on RegisterResponse with the rules defined
 // in the proto definition for this message. If any rules are violated, an

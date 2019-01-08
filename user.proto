@@ -24,7 +24,7 @@ message RegisterRequest {
     UserType user_type = 1 [(validate.rules).enum.const = 0];
     string email = 2 [(validate.rules).string.email = true];
     string password = 3 [(validate.rules).string.min_len = 6];
-    string name = 4 [(validate.rules).string.pattern = "^[^\\s*]*[^\\s*]$"];
+    string name = 4 [(validate.rules).string.pattern = "^[^\\s*].*[^\\s*]$"];
 }
 
 message RegisterResponse {
