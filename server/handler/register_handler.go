@@ -15,8 +15,12 @@ import (
 	"google.golang.org/grpc/status"
 )
 
+const (
+	idxEmailUniqueViolation = `duplicate key value violates unique constraint "idx_email"`
+)
+
 var (
-	EmailAlreadyExistsError = status.Error(codes.AlreadyExists, "email already exists")
+	ErrEmailAlreadyExists = status.Error(codes.AlreadyExists, "email already exists")
 )
 
 type RegisterHandlerFunc func(ctx context.Context, request *user.RegisterRequest) (*user.RegisterResponse, error)
@@ -29,12 +33,12 @@ func Register(c crypt.Crypt, db *sql.DB, id id.ID, authCli auth.AuthClient) Regi
 
 		userID, err := id.Generate()
 		if err != nil {
-			return nil, err
+			return nil, status.Error(codes.Internal, err.Error())
 		}
 
 		hashedPassword, err := c.HashPassword(req.GetPassword())
 		if err != nil {
-			return nil, err
+			return nil, status.Error(codes.Internal, err.Error())
 		}
 
 		u := &models.User{
@@ -46,19 +50,18 @@ func Register(c crypt.Crypt, db *sql.DB, id id.ID, authCli auth.AuthClient) Regi
 		}
 
 		err = u.Insert(ctx, db, boil.Infer())
-
 		if err != nil {
-			if strings.Contains(err.Error(), `duplicate key value violates unique constraint "idx_email"`) {
-				return nil, EmailAlreadyExistsError
+			if strings.Contains(err.Error(), idxEmailUniqueViolation) {
+				return nil, ErrEmailAlreadyExists
 			}
-			return nil, err
+			return nil, status.Error(codes.Internal, err.Error())
 		}
 
 		authResp, err := authCli.Auth(ctx, &auth.AuthRequest{
 			UserId: userID,
 		})
 		if err != nil {
-			return nil, err
+			return nil, status.Error(codes.Internal, err.Error())
 		}
 
 		return &user.RegisterResponse{

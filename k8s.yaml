@@ -229,6 +229,14 @@ spec:
             host: user
             port:
               number: 80
+    - match:
+        - uri:
+            prefix: /user.User/SignInWithGoogle
+      route:
+        - destination:
+            host: user
+            port:
+              number: 80
 
 ---
 

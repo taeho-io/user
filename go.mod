@@ -19,6 +19,7 @@ require (
 	golang.org/x/lint v0.0.0-20181217174547-8f45f776aaf1 // indirect
 	golang.org/x/net v0.0.0-20181220203305-927f97764cc3
 	golang.org/x/tools v0.0.0-20181221235234-d00ac6d27372 // indirect
+	google.golang.org/api v0.1.0
 	google.golang.org/grpc v1.17.0
 	gopkg.in/DATA-DOG/go-sqlmock.v1 v1.3.0
 	honnef.co/go/tools v0.0.0-20180920025451-e3ad64cb4ed3 // indirect

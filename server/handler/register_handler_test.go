@@ -127,7 +127,7 @@ func TestRegister_EmailAlreadyExists_Error(t *testing.T) {
 	})
 	assert.Nil(t, resp)
 	assert.Error(t, err)
-	assert.EqualError(t, err, EmailAlreadyExistsError.Error())
+	assert.EqualError(t, err, ErrEmailAlreadyExists.Error())
 }
 
 func TestRegister_DB_Error(t *testing.T) {

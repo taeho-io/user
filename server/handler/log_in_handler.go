@@ -25,7 +25,7 @@ func LogIn(c crypt.Crypt, db *sql.DB, authCli auth.AuthClient) LogInHandlerFunc 
 			return nil, status.Error(codes.InvalidArgument, err.Error())
 		}
 
-		u, err := models.Users(qm.Where("type=? AND email=?", req.UserType.String(), req.Email)).One(ctx, db)
+		u, err := models.Users(qm.Where("email=?", req.Email)).One(ctx, db)
 		if err != nil {
 			return nil, ErrLogInFailed
 		}

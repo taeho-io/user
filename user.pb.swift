@@ -22,6 +22,7 @@ fileprivate struct _GeneratedWithProtocGenSwiftVersion: SwiftProtobuf.ProtobufAP
 enum User_UserType: SwiftProtobuf.Enum {
   typealias RawValue = Int
   case email // = 0
+  case google // = 1
   case UNRECOGNIZED(Int)
 
   init() {
@@ -31,6 +32,7 @@ enum User_UserType: SwiftProtobuf.Enum {
   init?(rawValue: Int) {
     switch rawValue {
     case 0: self = .email
+    case 1: self = .google
     default: self = .UNRECOGNIZED(rawValue)
     }
   }
@@ -38,6 +40,7 @@ enum User_UserType: SwiftProtobuf.Enum {
   var rawValue: Int {
     switch self {
     case .email: return 0
+    case .google: return 1
     case .UNRECOGNIZED(let i): return i
     }
   }
@@ -50,6 +53,7 @@ extension User_UserType: CaseIterable {
   // The compiler won't synthesize support with the UNRECOGNIZED case.
   static var allCases: [User_UserType] = [
     .email,
+    .google,
   ]
 }
 
@@ -125,6 +129,38 @@ struct User_LogInResponse {
   init() {}
 }
 
+struct User_SignInWithGoogleRequest {
+  // SwiftProtobuf.Message conformance is added in an extension below. See the
+  // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
+  // methods supported on all messages.
+
+  var googleIDToken: String = String()
+
+  var name: String = String()
+
+  var unknownFields = SwiftProtobuf.UnknownStorage()
+
+  init() {}
+}
+
+struct User_SignInWithGoogleResponse {
+  // SwiftProtobuf.Message conformance is added in an extension below. See the
+  // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
+  // methods supported on all messages.
+
+  var accessToken: String = String()
+
+  var refreshToken: String = String()
+
+  var expiresIn: Int64 = 0
+
+  var userID: Int64 = 0
+
+  var unknownFields = SwiftProtobuf.UnknownStorage()
+
+  init() {}
+}
+
 struct User_GetRequest {
   // SwiftProtobuf.Message conformance is added in an extension below. See the
   // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
@@ -162,6 +198,7 @@ fileprivate let _protobuf_package = "user"
 extension User_UserType: SwiftProtobuf._ProtoNameProviding {
   static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
     0: .same(proto: "EMAIL"),
+    1: .same(proto: "GOOGLE"),
   ]
 }
 
@@ -338,6 +375,88 @@ extension User_LogInResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImple
   }
 
   static func ==(lhs: User_LogInResponse, rhs: User_LogInResponse) -> Bool {
+    if lhs.accessToken != rhs.accessToken {return false}
+    if lhs.refreshToken != rhs.refreshToken {return false}
+    if lhs.expiresIn != rhs.expiresIn {return false}
+    if lhs.userID != rhs.userID {return false}
+    if lhs.unknownFields != rhs.unknownFields {return false}
+    return true
+  }
+}
+
+extension User_SignInWithGoogleRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
+  static let protoMessageName: String = _protobuf_package + ".SignInWithGoogleRequest"
+  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
+    1: .standard(proto: "google_id_token"),
+    2: .same(proto: "name"),
+  ]
+
+  mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+    while let fieldNumber = try decoder.nextFieldNumber() {
+      switch fieldNumber {
+      case 1: try decoder.decodeSingularStringField(value: &self.googleIDToken)
+      case 2: try decoder.decodeSingularStringField(value: &self.name)
+      default: break
+      }
+    }
+  }
+
+  func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+    if !self.googleIDToken.isEmpty {
+      try visitor.visitSingularStringField(value: self.googleIDToken, fieldNumber: 1)
+    }
+    if !self.name.isEmpty {
+      try visitor.visitSingularStringField(value: self.name, fieldNumber: 2)
+    }
+    try unknownFields.traverse(visitor: &visitor)
+  }
+
+  static func ==(lhs: User_SignInWithGoogleRequest, rhs: User_SignInWithGoogleRequest) -> Bool {
+    if lhs.googleIDToken != rhs.googleIDToken {return false}
+    if lhs.name != rhs.name {return false}
+    if lhs.unknownFields != rhs.unknownFields {return false}
+    return true
+  }
+}
+
+extension User_SignInWithGoogleResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
+  static let protoMessageName: String = _protobuf_package + ".SignInWithGoogleResponse"
+  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
+    1: .standard(proto: "access_token"),
+    2: .standard(proto: "refresh_token"),
+    3: .standard(proto: "expires_in"),
+    4: .standard(proto: "user_id"),
+  ]
+
+  mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+    while let fieldNumber = try decoder.nextFieldNumber() {
+      switch fieldNumber {
+      case 1: try decoder.decodeSingularStringField(value: &self.accessToken)
+      case 2: try decoder.decodeSingularStringField(value: &self.refreshToken)
+      case 3: try decoder.decodeSingularInt64Field(value: &self.expiresIn)
+      case 4: try decoder.decodeSingularInt64Field(value: &self.userID)
+      default: break
+      }
+    }
+  }
+
+  func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+    if !self.accessToken.isEmpty {
+      try visitor.visitSingularStringField(value: self.accessToken, fieldNumber: 1)
+    }
+    if !self.refreshToken.isEmpty {
+      try visitor.visitSingularStringField(value: self.refreshToken, fieldNumber: 2)
+    }
+    if self.expiresIn != 0 {
+      try visitor.visitSingularInt64Field(value: self.expiresIn, fieldNumber: 3)
+    }
+    if self.userID != 0 {
+      try visitor.visitSingularInt64Field(value: self.userID, fieldNumber: 4)
+    }
+    try unknownFields.traverse(visitor: &visitor)
+  }
+
+  static func ==(lhs: User_SignInWithGoogleResponse, rhs: User_SignInWithGoogleResponse) -> Bool {
     if lhs.accessToken != rhs.accessToken {return false}
     if lhs.refreshToken != rhs.refreshToken {return false}
     if lhs.expiresIn != rhs.expiresIn {return false}

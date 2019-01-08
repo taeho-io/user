@@ -37,6 +37,12 @@ fileprivate final class User_UserLogInCallBase: ClientCallUnaryBase<User_LogInRe
   override class var method: String { return "/user.User/LogIn" }
 }
 
+internal protocol User_UserSignInWithGoogleCall: ClientCallUnary {}
+
+fileprivate final class User_UserSignInWithGoogleCallBase: ClientCallUnaryBase<User_SignInWithGoogleRequest, User_SignInWithGoogleResponse>, User_UserSignInWithGoogleCall {
+  override class var method: String { return "/user.User/SignInWithGoogle" }
+}
+
 internal protocol User_UserGetCall: ClientCallUnary {}
 
 fileprivate final class User_UserGetCallBase: ClientCallUnaryBase<User_GetRequest, User_GetResponse>, User_UserGetCall {
@@ -55,6 +61,11 @@ internal protocol User_UserService: ServiceClient {
   func logIn(_ request: User_LogInRequest) throws -> User_LogInResponse
   /// Asynchronous. Unary.
   func logIn(_ request: User_LogInRequest, completion: @escaping (User_LogInResponse?, CallResult) -> Void) throws -> User_UserLogInCall
+
+  /// Synchronous. Unary.
+  func signInWithGoogle(_ request: User_SignInWithGoogleRequest) throws -> User_SignInWithGoogleResponse
+  /// Asynchronous. Unary.
+  func signInWithGoogle(_ request: User_SignInWithGoogleRequest, completion: @escaping (User_SignInWithGoogleResponse?, CallResult) -> Void) throws -> User_UserSignInWithGoogleCall
 
   /// Synchronous. Unary.
   func get(_ request: User_GetRequest) throws -> User_GetResponse
@@ -83,6 +94,17 @@ internal final class User_UserServiceClient: ServiceClientBase, User_UserService
   /// Asynchronous. Unary.
   internal func logIn(_ request: User_LogInRequest, completion: @escaping (User_LogInResponse?, CallResult) -> Void) throws -> User_UserLogInCall {
     return try User_UserLogInCallBase(channel)
+      .start(request: request, metadata: metadata, completion: completion)
+  }
+
+  /// Synchronous. Unary.
+  internal func signInWithGoogle(_ request: User_SignInWithGoogleRequest) throws -> User_SignInWithGoogleResponse {
+    return try User_UserSignInWithGoogleCallBase(channel)
+      .run(request: request, metadata: metadata)
+  }
+  /// Asynchronous. Unary.
+  internal func signInWithGoogle(_ request: User_SignInWithGoogleRequest, completion: @escaping (User_SignInWithGoogleResponse?, CallResult) -> Void) throws -> User_UserSignInWithGoogleCall {
+    return try User_UserSignInWithGoogleCallBase(channel)
       .start(request: request, metadata: metadata, completion: completion)
   }
 
