@@ -24,6 +24,7 @@ import Foundation
 import Dispatch
 import SwiftGRPC
 import SwiftProtobuf
+import RxSwift
 
 internal protocol User_UserRegisterCall: ClientCallUnary {}
 
@@ -117,6 +118,69 @@ internal final class User_UserServiceClient: ServiceClientBase, User_UserService
   internal func get(_ request: User_GetRequest, completion: @escaping (User_GetResponse?, CallResult) -> Void) throws -> User_UserGetCall {
     return try User_UserGetCallBase(channel)
       .start(request: request, metadata: metadata, completion: completion)
+  }
+
+}
+
+internal extension User_UserServiceClient {
+  /// RxSwift. Unary.
+  internal func register(_ request: User_RegisterRequest, metadata customMetadata: Metadata?) -> Observable<User_RegisterResponse> {
+    return Observable.create { observer in
+      _ = try? User_UserRegisterCallBase(self.channel)
+        .start(request: request, metadata: customMetadata ?? self.metadata, completion: { resp, result in
+          guard let resp: User_RegisterResponse = resp else {
+            observer.onError(RPCError.callError(result))
+            return
+          }
+          observer.onNext(resp)
+        })
+      return Disposables.create()
+    }
+  }
+
+  /// RxSwift. Unary.
+  internal func logIn(_ request: User_LogInRequest, metadata customMetadata: Metadata?) -> Observable<User_LogInResponse> {
+    return Observable.create { observer in
+      _ = try? User_UserLogInCallBase(self.channel)
+        .start(request: request, metadata: customMetadata ?? self.metadata, completion: { resp, result in
+          guard let resp: User_LogInResponse = resp else {
+            observer.onError(RPCError.callError(result))
+            return
+          }
+          observer.onNext(resp)
+        })
+      return Disposables.create()
+    }
+  }
+
+  /// RxSwift. Unary.
+  internal func signInWithGoogle(_ request: User_SignInWithGoogleRequest, metadata customMetadata: Metadata?) -> Observable<User_SignInWithGoogleResponse> {
+    return Observable.create { observer in
+      _ = try? User_UserSignInWithGoogleCallBase(self.channel)
+        .start(request: request, metadata: customMetadata ?? self.metadata, completion: { resp, result in
+          guard let resp: User_SignInWithGoogleResponse = resp else {
+            observer.onError(RPCError.callError(result))
+            return
+          }
+          observer.onNext(resp)
+        })
+      return Disposables.create()
+    }
+  }
+
+  /// RxSwift. Unary.
+  internal func get(_ request: User_GetRequest, metadata customMetadata: Metadata?) -> Observable<User_GetResponse> {
+    return Observable.create { observer in
+      _ = try? User_UserGetCallBase(self.channel)
+        .start(request: request, metadata: customMetadata ?? self.metadata, completion: { resp, result in
+          guard let resp: User_GetResponse = resp else {
+            observer.onError(RPCError.callError(result))
+            return
+          }
+          observer.onNext(resp)
+        })
+      return Disposables.create()
+    }
   }
 
 }

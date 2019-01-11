@@ -14,7 +14,7 @@ proto:
 		--go_out=plugins=grpc:${GOPATH}/src \
 		--validate_out="lang=go:${GOPATH}/src" \
 		--swift_out=. \
-		--swiftgrpc_out=Client=true,Server=false:.
+		--swiftgrpc_out=Client=true,RxSwift=true,Server=false:.
 
 build: proto
 	go build -o build/user cmd/main.go
