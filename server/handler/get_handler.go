@@ -3,6 +3,7 @@ package handler
 import (
 	"database/sql"
 
+	"github.com/taeho-io/auth"
 	"github.com/taeho-io/user"
 	"github.com/taeho-io/user/server/models"
 	"github.com/volatiletech/sqlboiler/queries/qm"
@@ -12,15 +13,20 @@ import (
 )
 
 var (
-	ErrUserNotFound = status.Error(codes.NotFound, "user not found")
+	ErrUserNotFound     = status.Error(codes.NotFound, "user not found")
+	ErrPermissionDenied = status.Error(codes.PermissionDenied, "forbidden")
 )
 
-type GetHandlerFunc func(ctx context.Context, request *user.GetRequest) (*user.GetResponse, error)
+type GetHandlerFunc func(ctx context.Context, req *user.GetRequest) (*user.GetResponse, error)
 
 func Get(db *sql.DB) GetHandlerFunc {
 	return func(ctx context.Context, req *user.GetRequest) (*user.GetResponse, error) {
 		if err := req.Validate(); err != nil {
 			return nil, status.Error(codes.InvalidArgument, err.Error())
+		}
+
+		if err := auth.VerifyUser(ctx, req.UserId, true); err != nil {
+			return nil, ErrPermissionDenied
 		}
 
 		u, err := models.Users(qm.Where("id=?", req.UserId)).One(ctx, db)
