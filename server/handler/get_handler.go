@@ -6,7 +6,7 @@ import (
 	"github.com/taeho-io/auth"
 	"github.com/taeho-io/user"
 	"github.com/taeho-io/user/server/models"
-	"github.com/volatiletech/sqlboiler/queries/qm"
+	. "github.com/volatiletech/sqlboiler/queries/qm"
 	"golang.org/x/net/context"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
@@ -29,7 +29,7 @@ func Get(db *sql.DB) GetHandlerFunc {
 			return nil, ErrPermissionDenied
 		}
 
-		u, err := models.Users(qm.Where("id=?", req.UserId)).One(ctx, db)
+		u, err := models.Users(Where("id=?", req.UserId)).One(ctx, db)
 		if err != nil {
 			switch err {
 			case sql.ErrNoRows:

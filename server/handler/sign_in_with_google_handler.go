@@ -9,7 +9,7 @@ import (
 	"github.com/taeho-io/user"
 	"github.com/taeho-io/user/server/models"
 	"github.com/volatiletech/sqlboiler/boil"
-	"github.com/volatiletech/sqlboiler/queries/qm"
+	. "github.com/volatiletech/sqlboiler/queries/qm"
 	"golang.org/x/net/context"
 	"google.golang.org/api/oauth2/v2"
 	"google.golang.org/grpc/codes"
@@ -32,7 +32,7 @@ func SignInWithGoogle(oauth2Svc *oauth2.Service, id id.ID, db *sql.DB, authCli a
 		}
 
 		var userID int64
-		u, err := models.Users(qm.Where("email=?", tokenInfo.Email)).One(ctx, db)
+		u, err := models.Users(Where("email=?", tokenInfo.Email)).One(ctx, db)
 		switch err {
 		case nil:
 			userID = u.ID

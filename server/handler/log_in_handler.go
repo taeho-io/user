@@ -7,7 +7,7 @@ import (
 	"github.com/taeho-io/user"
 	"github.com/taeho-io/user/pkg/crypt"
 	"github.com/taeho-io/user/server/models"
-	"github.com/volatiletech/sqlboiler/queries/qm"
+	. "github.com/volatiletech/sqlboiler/queries/qm"
 	"golang.org/x/net/context"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
@@ -25,7 +25,7 @@ func LogIn(c crypt.Crypt, db *sql.DB, authCli auth.AuthClient) LogInHandlerFunc 
 			return nil, status.Error(codes.InvalidArgument, err.Error())
 		}
 
-		u, err := models.Users(qm.Where("email=?", req.Email)).One(ctx, db)
+		u, err := models.Users(Where("email=?", req.Email)).One(ctx, db)
 		if err != nil {
 			return nil, ErrLogInFailed
 		}
