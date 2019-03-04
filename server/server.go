@@ -15,7 +15,7 @@ import (
 	"github.com/pkg/errors"
 	"github.com/sirupsen/logrus"
 	"github.com/taeho-io/auth"
-	"github.com/taeho-io/taeho-go/id"
+	"github.com/taeho-io/go-taeho/id"
 	"github.com/taeho-io/user"
 	"github.com/taeho-io/user/pkg/crypt"
 	"github.com/taeho-io/user/server/handler"

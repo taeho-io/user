@@ -5,7 +5,7 @@ import (
 	"strings"
 
 	"github.com/taeho-io/auth"
-	"github.com/taeho-io/taeho-go/id"
+	"github.com/taeho-io/go-taeho/id"
 	"github.com/taeho-io/user"
 	"github.com/taeho-io/user/server/models"
 	"github.com/volatiletech/sqlboiler/boil"

@@ -3,7 +3,7 @@ package user
 import (
 	"sync"
 
-	"github.com/taeho-io/taeho-go/interceptor"
+	"github.com/taeho-io/go-taeho/interceptor"
 	"google.golang.org/grpc"
 )
 

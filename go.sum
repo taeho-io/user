@@ -27,6 +27,8 @@ github.com/golang/mock v1.2.0 h1:28o5sBqPkBsMGnC6b4MvE2TzSr5/AT4c/1fLqVGIwlk=
 github.com/golang/mock v1.2.0/go.mod h1:oTYuIxOrZwtPieC+H1uAHpcLFnEyAGVDL/k47Jfbm0A=
 github.com/golang/protobuf v1.2.0 h1:P3YflyNX/ehuJFLhxviNdFxQPkGK5cDcApsge1SqnvM=
 github.com/golang/protobuf v1.2.0/go.mod h1:6lQm79b+lXiMfvg/cZm0SGofjICqVBUtrP5yJMmIC1U=
+github.com/golang/protobuf v1.3.0 h1:kbxbvI4Un1LUWKxufD+BiE6AEExYYgkQLQmLFqA1LFk=
+github.com/golang/protobuf v1.3.0/go.mod h1:Qd/q+1AKNOZr9uGQzbzCmRO6sUih6GTPZv6a1/R87v0=
 github.com/google/go-cmp v0.2.0/go.mod h1:oXzfMopK8JAjlY9xF4vHSVASa0yLyX7SntLO5aqRK0M=
 github.com/grpc-ecosystem/go-grpc-middleware v1.0.0 h1:Iju5GlWwrvL6UBg4zJJt3btmonfrMlCDdsejg4CZE7c=
 github.com/grpc-ecosystem/go-grpc-middleware v1.0.0/go.mod h1:FiyG127CGDf3tlThmgyCl78X/SZQqEOJBCDaAfeWzPs=
@@ -48,6 +50,8 @@ github.com/lyft/protoc-gen-star v0.4.5 h1:7b1cLAi+7X3UVY+Kf9ZoVbL0OJ8UGbrVunREpq
 github.com/lyft/protoc-gen-star v0.4.5/go.mod h1:mE8fbna26u7aEA2QCVvvfBU/ZrPgocG1206xAFPcs94=
 github.com/lyft/protoc-gen-validate v0.0.12 h1:4yfI8PSMdUqdTrQqjNIgjTJ7Vl3zFNqtgBGXsB7QJiw=
 github.com/lyft/protoc-gen-validate v0.0.12/go.mod h1:XbGvPuh87YZc5TdIa2/I4pLk0QoUACkjt2znoq26NVQ=
+github.com/lyft/protoc-gen-validate v0.0.13 h1:KNt/RhmQTOLr7Aj8PsJ7mTronaFyx80mRTT9qF261dA=
+github.com/lyft/protoc-gen-validate v0.0.13/go.mod h1:XbGvPuh87YZc5TdIa2/I4pLk0QoUACkjt2znoq26NVQ=
 github.com/mattn/go-colorable v0.0.9 h1:UVL0vNpWh04HeJXV0KLcaT7r06gOH2l4OW6ddYRUIY4=
 github.com/mattn/go-colorable v0.0.9/go.mod h1:9vuHe8Xs5qXnSaW/c/ABM9alt+Vo+STaOChaDxuIBZU=
 github.com/mattn/go-isatty v0.0.4 h1:bnP0vzxcAdeI1zdubAl5PjU6zsERjGZb7raWodagDYs=
@@ -77,6 +81,8 @@ github.com/stretchr/testify v1.2.2 h1:bSDNvY7ZPG5RlJ8otE/7V6gMiyenm9RtJ7IUVIAoJ1
 github.com/stretchr/testify v1.2.2/go.mod h1:a8OnRcib4nhh0OaRAV+Yts87kKdq0PP7pXfy6kDkUVs=
 github.com/taeho-io/auth v0.0.0-20190115020012-b64d3100b741 h1:W6Bwq2KbHxZeUNGe5fUVKNFQfnPxuEei69wv3+PoQPc=
 github.com/taeho-io/auth v0.0.0-20190115020012-b64d3100b741/go.mod h1:Bvj0f3WiXGZNncpvZp3Dex/xxDazsN99PSTfcZit4gA=
+github.com/taeho-io/go-taeho v0.0.0-20190304052610-4b79aa9ad7bc h1:HtxA87t6+LN8PL93HuC9+dKFB8hRSycSonW9V3BGa0w=
+github.com/taeho-io/go-taeho v0.0.0-20190304052610-4b79aa9ad7bc/go.mod h1:DSxhG0YqDDQw7qd1xU73xvjKENTQ+6lu1R+DI0FEKOY=
 github.com/taeho-io/taeho-go v0.0.0-20181230233140-814f79be3042 h1:Nnchhv5bGkSs3xJOZncxcE1S+F1d46pUVcgj6KsJ8Dc=
 github.com/taeho-io/taeho-go v0.0.0-20181230233140-814f79be3042/go.mod h1:r6XkEYoI6SXWxDgF0Sp9tbmVj6M82lmvKzR92r7czSU=
 github.com/volatiletech/inflect v0.0.0-20170731032912-e7201282ae8d h1:gI4/tqP6lCY5k6Sg+4k9qSoBXmPwG+xXgMpK7jivD4M=

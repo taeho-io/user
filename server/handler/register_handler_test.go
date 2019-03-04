@@ -9,7 +9,7 @@ import (
 	"github.com/icrowley/fake"
 	"github.com/stretchr/testify/assert"
 	"github.com/taeho-io/auth"
-	"github.com/taeho-io/taeho-go/id"
+	"github.com/taeho-io/go-taeho/id"
 	"github.com/taeho-io/user"
 	"github.com/taeho-io/user/pkg/crypt"
 	"golang.org/x/net/context"
