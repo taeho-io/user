@@ -4,7 +4,7 @@ import (
 	"database/sql"
 
 	"github.com/taeho-io/auth"
-	"github.com/taeho-io/user"
+	"github.com/taeho-io/idl/gen/go/user"
 	"github.com/taeho-io/user/pkg/crypt"
 	"github.com/taeho-io/user/server/models"
 	. "github.com/volatiletech/sqlboiler/queries/qm"

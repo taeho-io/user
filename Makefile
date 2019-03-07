@@ -2,28 +2,16 @@
 
 GOPATH:=$(shell go env GOPATH)
 
-.PHONY: proto test
-
-proto:
-	@go get github.com/golang/protobuf/protoc-gen-go
-	@go get github.com/lyft/protoc-gen-validate
-	protoc \
-		-I . \
-		-I ${GOPATH}/src \
-		user.proto \
-		--go_out=plugins=grpc:${GOPATH}/src \
-		--validate_out="lang=go:${GOPATH}/src" \
-		--swift_out=. \
-		--swiftgrpc_out=Client=true,Server=false:. \
-		--swiftgrpcrx_out=.
-
-build: proto
+.PHONY: build
+build:
 	go build -o build/user cmd/main.go
     
+.PHONY: test
 test:
 	@go get github.com/rakyll/gotest
 	gotest -p 1 -race -cover -v ./...
 
+.PHONY: lint
 lint:
 	golangci-lint run ./...
 

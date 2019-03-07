@@ -8,7 +8,7 @@ import (
 	"github.com/golang/mock/gomock"
 	"github.com/stretchr/testify/assert"
 	"github.com/taeho-io/auth"
-	"github.com/taeho-io/user"
+	"github.com/taeho-io/idl/gen/go/user"
 	"github.com/taeho-io/user/pkg/crypt"
 	"golang.org/x/net/context"
 	"gopkg.in/DATA-DOG/go-sqlmock.v1"
