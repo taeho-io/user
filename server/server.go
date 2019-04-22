@@ -5,13 +5,16 @@ import (
 	"fmt"
 	"net"
 	"net/http"
+	"sync"
 	"time"
 
 	"github.com/grpc-ecosystem/go-grpc-middleware"
 	"github.com/grpc-ecosystem/go-grpc-middleware/logging/logrus"
 	"github.com/grpc-ecosystem/go-grpc-middleware/recovery"
 	"github.com/grpc-ecosystem/go-grpc-middleware/tags"
-	_ "github.com/lib/pq"
+	"github.com/lib/pq"
+	"github.com/luna-duclos/instrumentedsql"
+	ot "github.com/luna-duclos/instrumentedsql/opentracing"
 	"github.com/pkg/errors"
 	"github.com/sirupsen/logrus"
 	"github.com/taeho-io/auth"
@@ -27,6 +30,14 @@ import (
 	"google.golang.org/grpc/reflection"
 )
 
+const (
+	instrumentedDriverName = "instrumented-postgres"
+)
+
+var (
+	mu sync.Mutex
+)
+
 type UserServer struct {
 	user.UserServer
 
@@ -36,6 +47,37 @@ type UserServer struct {
 	id        id.ID
 	authCli   auth.AuthClient
 	oauth2Svc *oauth2.Service
+}
+
+func contains(a []string, x string) bool {
+	for _, n := range a {
+		if x == n {
+			return true
+		}
+	}
+	return false
+}
+
+func init() {
+	mu.Lock()
+	defer mu.Unlock()
+
+	drivers := sql.Drivers()
+	if !contains(drivers, instrumentedDriverName) {
+		logger := instrumentedsql.LoggerFunc(func(ctx context.Context, msg string, kv ...interface{}) {
+			logrus.WithField("kv", kv).Info(msg)
+		})
+
+		sql.Register(
+			instrumentedDriverName,
+			instrumentedsql.WrapDriver(
+				&pq.Driver{},
+				instrumentedsql.WithTracer(ot.NewTracer(false)),
+				instrumentedsql.WithOmitArgs(),
+				instrumentedsql.WithLogger(logger),
+			),
+		)
+	}
 }
 
 func New(cfg Config) (*UserServer, error) {
@@ -48,10 +90,12 @@ func New(cfg Config) (*UserServer, error) {
 		cfg.Settings().PostgresUser,
 		cfg.Settings().PostgresPassword,
 	)
-	db, err := sql.Open("postgres", dsn)
+
+	db, err := sql.Open(instrumentedDriverName, dsn)
 	if err != nil {
 		return nil, err
 	}
+
 	for {
 		err = db.Ping()
 		if err != nil {

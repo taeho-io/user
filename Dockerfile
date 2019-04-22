@@ -1,4 +1,4 @@
-FROM golang:1.12.0 as golang
+FROM golang:1.12.4 as golang
 WORKDIR /user
 COPY . .
 RUN go mod download
@@ -6,7 +6,6 @@ WORKDIR /user/cmd
 RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -a -installsuffix cgo -ldflags="-w -s" -o /go/bin/user
 WORKDIR /user
 ARG test
-RUN if [ "$test" = "true" ] ; then curl -sfL https://install.goreleaser.com/github.com/golangci/golangci-lint.sh | sh -s -- -b $(go env GOPATH)/bin v1.12.4 ; fi
 RUN if [ "$test" = "true" ] ; then make lint ; fi
 RUN if [ "$test" = "true" ] ; then make test ; fi
 
